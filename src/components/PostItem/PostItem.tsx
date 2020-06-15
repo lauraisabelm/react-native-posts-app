@@ -1,6 +1,6 @@
 // REACT NATIVE
 import React from 'react';
-import { Animated, Text } from 'react-native';
+import { Animated } from 'react-native';
 
 // LIBS
 import Swipeable from 'react-native-gesture-handler/Swipeable';
@@ -16,6 +16,7 @@ import {
   NativeStyles,
   RightContainer,
   Separator,
+  Title,
 } from './styles';
 import { isIos } from '../../utils/responsive';
 import { theme } from '../../utils/theme';
@@ -81,7 +82,7 @@ const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, position, ti
         <Item onPress={onPressItem}>
           <LeftContainer isRead={isRead}>{renderLeftContent()}</LeftContainer>
           <MiddleContainer isFavorite={isFavorite}>
-            <Text>{title}</Text>
+            <Title>{title}</Title>
           </MiddleContainer>
           <RightContainer>{renderRightContent()}</RightContainer>
         </Item>

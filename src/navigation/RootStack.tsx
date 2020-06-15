@@ -10,7 +10,10 @@ import { theme } from '../utils/theme';
 import { isIos } from '../utils/responsive';
 
 export type RootStackParamList = {
-  Details: undefined;
+  Details: {
+    description: string;
+    postId: number;
+  };
   Posts: undefined;
 };
 

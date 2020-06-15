@@ -69,3 +69,9 @@ export const Separator = styled.View({
   height: 1,
   width: isIos ? '95%' : '100%',
 });
+
+export const Title = styled.Text({
+  color: theme.grey,
+  fontSize: 16,
+  lineHeight: '22px',
+});

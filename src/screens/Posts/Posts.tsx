@@ -12,6 +12,9 @@ import { RootStackParamList } from '../../navigation/RootStack';
 // COMPONENTS
 import { Button, HeaderButton, PostItem, Tabs } from '../../components';
 
+// RESOURCES
+import { CustomPost } from '../../types';
+
 // STYLED & UTILS
 import { Container, MainContainer } from './styles';
 import { theme } from '../../utils/theme';
@@ -25,6 +28,36 @@ type Props = {
 type State = {
   tabIndex: number;
 };
+
+const favorites: CustomPost[] = [
+  {
+    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
+    favorite: true,
+    id: 1,
+    title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
+    read: false,
+    userId: 1,
+  },
+];
+
+const posts: CustomPost[] = [
+  {
+    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
+    favorite: false,
+    id: 1,
+    title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
+    read: false,
+    userId: 1,
+  },
+  {
+    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
+    favorite: false,
+    id: 2,
+    title: 'Post title 2: Cylindrical-coordinate representations to tt (also known as HSL)',
+    read: false,
+    userId: 1,
+  },
+];
 
 class Posts extends Component<Props, State> {
   state = {
@@ -48,8 +81,12 @@ class Posts extends Component<Props, State> {
     console.log('Added to favorites');
   };
 
-  render() {
+  goToDetails = (body: string, id: number) => {
     const { navigation } = this.props;
+    navigation.navigate('Details', { description: body, postId: id });
+  };
+
+  render() {
     const { tabIndex } = this.state;
     return (
       <MainContainer>
@@ -66,53 +103,33 @@ class Posts extends Component<Props, State> {
         <Container>
           {tabIndex === 0 ? (
             <FlatList
-              data={[
-                {
-                  favorite: true,
-                  id: 1,
-                  title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
-                  read: false,
-                },
-                {
-                  favorite: false,
-                  id: 2,
-                  title: 'Post title 2: Cylindrical-coordinate representations to tt (also known as HSL)',
-                  read: true,
-                },
-              ]}
+              data={posts}
+              keyExtractor={(item: CustomPost) => item.id.toString()}
               renderItem={({ item }) => (
                 <PostItem
                   isFavorite={item.favorite}
                   isRead={item.read}
                   onPressDelete={() => {}}
-                  onPressItem={() => navigation.navigate('Details')}
+                  onPressItem={() => this.goToDetails(item.body, item.id)}
                   position={item.id}
                   title={item.title}
                 />
               )}
-              keyExtractor={(item) => item.id.toString()}
             />
           ) : (
             <FlatList
-              data={[
-                {
-                  favorite: true,
-                  id: 1,
-                  title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
-                  read: false,
-                },
-              ]}
+              data={favorites}
+              keyExtractor={(item: CustomPost) => item.id.toString()}
               renderItem={({ item }) => (
                 <PostItem
                   isFavorite={item.favorite}
                   isRead={item.read}
                   onPressDelete={() => {}}
-                  onPressItem={() => navigation.navigate('Details')}
+                  onPressItem={() => this.goToDetails(item.body, item.id)}
                   position={item.id}
                   title={item.title}
                 />
               )}
-              keyExtractor={(item) => item.id.toString()}
             />
           )}
         </Container>
