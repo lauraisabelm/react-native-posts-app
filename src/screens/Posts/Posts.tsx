@@ -16,7 +16,7 @@ import { Button, HeaderButton, PostItem, Tabs } from '../../components';
 import { CustomPost } from '../../types';
 
 // STYLED & UTILS
-import { Container, MainContainer } from './styles';
+import { Container, MainContainer, NoFavoritesText } from './styles';
 import { theme } from '../../utils/theme';
 
 type PostsNavigationProp = StackNavigationProp<RootStackParamList, 'Posts'>;
@@ -29,7 +29,7 @@ type State = {
   tabIndex: number;
 };
 
-const favorites: CustomPost[] = [
+let favorites: CustomPost[] = [
   {
     body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
     favorite: true,
@@ -40,7 +40,7 @@ const favorites: CustomPost[] = [
   },
 ];
 
-const posts: CustomPost[] = [
+let posts: CustomPost[] = [
   {
     body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
     favorite: false,
@@ -77,6 +77,19 @@ class Posts extends Component<Props, State> {
     navigation.goBack();
   };
 
+  deleteAll = () => {
+    posts = [];
+    favorites = [];
+  };
+
+  deletePost = (position: number, id: number) => {
+    posts.splice(position, 1);
+    const indexToDelete = favorites.findIndex((item) => item.id === id);
+    if (indexToDelete) {
+      favorites.splice(indexToDelete, 1);
+    }
+  };
+
   addToFavorites = () => {
     console.log('Added to favorites');
   };
@@ -84,6 +97,30 @@ class Posts extends Component<Props, State> {
   goToDetails = (body: string, id: number) => {
     const { navigation } = this.props;
     navigation.navigate('Details', { description: body, postId: id });
+  };
+
+  renderTabContent = () => {
+    const { tabIndex } = this.state;
+    if (favorites.length === 0 && tabIndex === 1) {
+      return <NoFavoritesText>You have no favorite posts so far.</NoFavoritesText>;
+    }
+
+    return (
+      <FlatList
+        data={tabIndex === 0 ? posts : favorites}
+        extraData={tabIndex === 0 ? posts : favorites}
+        keyExtractor={(item: CustomPost) => item.id.toString()}
+        renderItem={({ item, index }) => (
+          <PostItem
+            isFavorite={item.favorite}
+            isRead={item.read}
+            onPressDelete={() => this.deletePost(index, item.id)}
+            onPressItem={() => this.goToDetails(item.body, item.id)}
+            title={item.title}
+          />
+        )}
+      />
+    );
   };
 
   render() {
@@ -100,40 +137,14 @@ class Posts extends Component<Props, State> {
           onChangeIndex={(newIndex: number) => this.setState({ tabIndex: newIndex })}
           selectedIndex={tabIndex}
         />
-        <Container>
-          {tabIndex === 0 ? (
-            <FlatList
-              data={posts}
-              keyExtractor={(item: CustomPost) => item.id.toString()}
-              renderItem={({ item }) => (
-                <PostItem
-                  isFavorite={item.favorite}
-                  isRead={item.read}
-                  onPressDelete={() => {}}
-                  onPressItem={() => this.goToDetails(item.body, item.id)}
-                  position={item.id}
-                  title={item.title}
-                />
-              )}
-            />
-          ) : (
-            <FlatList
-              data={favorites}
-              keyExtractor={(item: CustomPost) => item.id.toString()}
-              renderItem={({ item }) => (
-                <PostItem
-                  isFavorite={item.favorite}
-                  isRead={item.read}
-                  onPressDelete={() => {}}
-                  onPressItem={() => this.goToDetails(item.body, item.id)}
-                  position={item.id}
-                  title={item.title}
-                />
-              )}
-            />
-          )}
-        </Container>
-        <Button color={theme.red} iconName="md-trash" name="Delete All" width="100%" />
+        <Container>{this.renderTabContent()}</Container>
+        <Button
+          color={theme.red}
+          iconName="md-trash"
+          name="Delete All"
+          onPress={this.deleteAll}
+          width="100%"
+        />
       </MainContainer>
     );
   }

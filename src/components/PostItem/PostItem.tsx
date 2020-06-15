@@ -26,13 +26,12 @@ const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 interface Props {
   isFavorite: boolean;
   isRead: boolean;
-  onPressDelete: (position: number) => void;
+  onPressDelete: () => void;
   onPressItem: () => void;
-  position: number;
   title: string;
 }
 
-const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, position, title }: Props) => {
+const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, title }: Props) => {
   const renderRightActions = (progress: any, dragX: any) => {
     const scale = dragX.interpolate({
       inputRange: [-80, 0],
@@ -40,7 +39,7 @@ const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, position, ti
       extrapolate: 'clamp',
     });
     return (
-      <AnimatedIconContainer onPress={() => onPressDelete(position)}>
+      <AnimatedIconContainer onPress={onPressDelete}>
         <AnimatedIcon
           name="md-trash"
           size={30}

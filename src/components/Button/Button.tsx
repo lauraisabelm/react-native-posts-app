@@ -15,13 +15,14 @@ interface Props {
   color: string;
   iconName: string;
   name: string;
+  onPress: () => void;
   width: number | string;
 }
 
-const Button = ({ color, iconName, name, width }: Props) => {
+const Button = ({ color, iconName, name, onPress, width }: Props) => {
   if (isIos) {
     return (
-      <Container backgroundColor={color} width={width}>
+      <Container activeOpacity={0.7} backgroundColor={color} onPress={onPress} width={width}>
         <Title>{name}</Title>
       </Container>
     );
@@ -30,7 +31,7 @@ const Button = ({ color, iconName, name, width }: Props) => {
   return (
     <ActionButton
       buttonColor={color}
-      onPress={() => {}}
+      onPress={onPress}
       renderIcon={() => <Icon color={theme.white} name={iconName} size={25} />}
     />
   );
