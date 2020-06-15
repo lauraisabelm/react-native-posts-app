@@ -4,19 +4,21 @@ import React from 'react';
 
 // LIBS
 import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // STYLES
-import { Title, Container } from './styles';
-import { theme } from '../../utils/theme';
+import { Container, Title } from './styles';
 import { isIos } from '../../utils/responsive';
+import { theme } from '../../utils/theme';
 
 interface Props {
   color: string;
+  iconName: string;
   name: string;
   width: number | string;
 }
 
-const Button = ({ color, name, width }: Props) => {
+const Button = ({ color, iconName, name, width }: Props) => {
   if (isIos) {
     return (
       <Container backgroundColor={color} width={width}>
@@ -24,16 +26,14 @@ const Button = ({ color, name, width }: Props) => {
       </Container>
     );
   }
-  /*
+
   return (
     <ActionButton
-      buttonColor={theme.red}
-      onPress={}
-      renderIcon={() => (
-        <Icon color={blank0} name="md-locate" style={styles.actionButtonIcon} />
-      )}
+      buttonColor={color}
+      onPress={() => {}}
+      renderIcon={() => <Icon color={theme.white} name={iconName} size={25} />}
     />
-  ); */
+  );
 };
 
 export default Button;

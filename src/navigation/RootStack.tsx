@@ -1,7 +1,13 @@
+// REACT NATIVE
 import * as React from 'react';
+
+// NAVIGATION
 import { createStackNavigator } from '@react-navigation/stack';
+
+// RESOURCES
 import { Details, Posts } from '../screens';
 import { theme } from '../utils/theme';
+import { isIos } from '../utils/responsive';
 
 export type RootStackParamList = {
   Details: undefined;
@@ -14,17 +20,24 @@ const RootStack = () => (
   <Stack.Navigator
     initialRouteName="Posts"
     screenOptions={{
+      headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: theme.green,
       },
       headerTintColor: theme.white,
       headerTitleStyle: {
-        fontWeight: 'bold',
+        fontWeight: '500',
       },
     }}
   >
     <Stack.Screen name="Posts" component={Posts} />
-    <Stack.Screen name="Details" component={Details} options={{ title: 'Post' }} />
+    <Stack.Screen
+      name="Details"
+      component={Details}
+      options={{
+        title: isIos ? 'Post' : '',
+      }}
+    />
   </Stack.Navigator>
 );
 

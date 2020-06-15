@@ -6,6 +6,9 @@ import { StatusBar, Text, TouchableOpacity } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../navigation/RootStack';
 
+// COMPONENTS
+import { HeaderButton } from '../../components';
+
 type DetailsNavigationProp = StackNavigationProp<RootStackParamList, 'Details'>;
 
 type Props = {
@@ -13,6 +16,21 @@ type Props = {
 };
 
 class Details extends Component<Props> {
+  componentDidMount() {
+    const { navigation } = this.props;
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          changeableIcon
+          iconNameOff="ios-star-outline"
+          iconNameOn="ios-star"
+          iconSelected={false}
+          onButtonPress={() => {}}
+        />
+      ),
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     return (
