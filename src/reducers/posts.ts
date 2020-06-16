@@ -54,6 +54,7 @@ const posts = (state = initialState, action: PostsActionTypes): PostsState => {
     case DELETE_POSTS:
       return {
         ...state,
+        favorites: [],
         posts: [],
       };
     case DELETE_POST_BY_POSITION:

@@ -154,6 +154,10 @@ class Posts extends Component<Props, State> {
       return <NoDataText>You have no favorite posts so far.</NoDataText>;
     }
 
+    if (posts.length === 0 && tabIndex === 0) {
+      return <NoDataText>You don't have any posts.</NoDataText>;
+    }
+
     return (
       <FlatList
         data={tabIndex === 0 ? posts : favorites}
