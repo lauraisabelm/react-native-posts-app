@@ -1,3 +1,4 @@
+// RESOURCES
 import { getCommentsByPost } from './endpoints';
 
 export const requestCommentsByPost = async (id: number) => {

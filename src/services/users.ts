@@ -1,3 +1,4 @@
+// RESOURCES
 import { getUser } from './endpoints';
 
 export const requestUser = async (id: number) => {

@@ -6,7 +6,7 @@ import { Animated } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// STYLED & UTILS
+// STYLES & UTILS
 import {
   AnimatedIconContainer,
   BlueDot,

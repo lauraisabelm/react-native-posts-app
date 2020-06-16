@@ -6,7 +6,7 @@ import React from 'react';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-// STYLES
+// STYLES & UTILS
 import { Container, Title } from './styles';
 import { isIos } from '../../utils/responsive';
 import { theme } from '../../utils/theme';

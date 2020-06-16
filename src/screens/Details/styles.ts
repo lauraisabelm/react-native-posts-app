@@ -28,10 +28,14 @@ export const CommentTitle = styled.Text({
   paddingTop: isIos ? responsiveSize(5) : 0,
 });
 
-export const Content = styled.View({
-  paddingHorizontal: responsiveSize(15),
+type ContentProps = {
+  isCommentsContent?: boolean;
+};
+
+export const Content = styled.View(({ isCommentsContent }: ContentProps) => ({
+  paddingHorizontal: responsiveSize(isCommentsContent ? 30 : 15),
   width: '100%',
-});
+}));
 
 export const CustomText = styled.Text({
   color: theme.suvaGrey,

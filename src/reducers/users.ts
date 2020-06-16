@@ -1,3 +1,4 @@
+// RESOURCES
 import { SET_LOADING_USER, SET_USER, UserActionTypes } from '../actions/types';
 import { User } from '../types';
 

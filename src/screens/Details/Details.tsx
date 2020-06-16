@@ -14,7 +14,7 @@ import { connect, ConnectedProps } from 'react-redux';
 // COMPONENTS
 import { CommentItem, HeaderButton } from '../../components';
 
-// STYLED & UTILS
+// STYLES & UTILS
 import {
   ActivityContainer,
   CommentsBar,
@@ -142,7 +142,7 @@ class Details extends Component<Props> {
     }
     if (commentsError) {
       return (
-        <Content>
+        <Content isCommentsContent>
           <NoDataMessage>
             There was a problem requesting the data, please try again later.
           </NoDataMessage>

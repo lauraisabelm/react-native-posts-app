@@ -1,7 +1,7 @@
 // REACT NATIVE
 import React from 'react';
 
-// STYLED
+// STYLES
 import { Body, Item, Separator } from './styles';
 
 interface Props {

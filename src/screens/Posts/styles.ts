@@ -1,3 +1,6 @@
+// REACT NATIVE
+import { StyleSheet } from 'react-native';
+
 // LIBS
 import styled from 'styled-components/native';
 
@@ -20,6 +23,12 @@ export const LoadingContainer = styled.View({
 export const MainContainer = styled.SafeAreaView({
   backgroundColor: theme.red,
   flex: 1,
+});
+
+export const NativeStyles = StyleSheet.create({
+  flatlist: {
+    paddingBottom: responsiveSize(30),
+  },
 });
 
 export const NoDataText = styled.Text({

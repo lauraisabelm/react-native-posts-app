@@ -1,3 +1,4 @@
+// RESOURCES
 import { getPosts } from './endpoints';
 
 export const requestPosts = async () => {

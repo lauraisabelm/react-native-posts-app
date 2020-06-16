@@ -1,4 +1,7 @@
+// LIBS
 import { Dispatch } from 'redux';
+
+// RESOURCES
 import {
   SET_LOADING_POSTS,
   SET_POSTS,

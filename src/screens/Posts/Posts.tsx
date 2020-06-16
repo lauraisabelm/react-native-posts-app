@@ -24,8 +24,8 @@ import {
 } from '../../actions';
 import { RootState } from '../../store/configureStore';
 
-// STYLED & UTILS
-import { Container, LoadingContainer, MainContainer, NoDataText } from './styles';
+// STYLES & UTILS
+import { Container, LoadingContainer, MainContainer, NativeStyles, NoDataText } from './styles';
 import { theme } from '../../utils/theme';
 
 const mapStateToProps = ({ comments, posts }: RootState) => ({
@@ -98,7 +98,6 @@ class Posts extends Component<Props, State> {
   deletePost = (position: number, id: number) => {
     const { deletePostByPositionConnected, favorites, posts } = this.props;
     const { tabIndex } = this.state;
-    console.log('position: ', position, ', id: ', id);
     Alert.alert('Confirmation', 'Are you sure you want to delete this posts?', [
       {
         text: 'Cancel',
@@ -160,6 +159,7 @@ class Posts extends Component<Props, State> {
 
     return (
       <FlatList
+        contentContainerStyle={NativeStyles.flatlist}
         data={tabIndex === 0 ? posts : favorites}
         keyExtractor={(item: CustomPost) => item.id.toString()}
         renderItem={({ item, index }) => (

@@ -1,5 +1,10 @@
-import styled from 'styled-components/native';
+// REACT NATIVE
 import { StyleSheet, TextProps, ViewProps } from 'react-native';
+
+// LIBS
+import styled from 'styled-components/native';
+
+// UTILS
 import { theme } from '../../utils/theme';
 import { isIos, responsiveSize } from '../../utils/responsive';
 

@@ -1,4 +1,7 @@
+// LIBS
 import { Dispatch } from 'redux';
+
+// RESOURCES
 import { SET_LOADING_USER, SET_USER, UserActionTypes } from './types';
 import { requestUser } from '../services/users';
 

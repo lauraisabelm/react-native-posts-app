@@ -1,3 +1,4 @@
+// RESOURCES
 import { combineReducers } from 'redux';
 import postsReducer from './posts';
 import usersReducer from './users';

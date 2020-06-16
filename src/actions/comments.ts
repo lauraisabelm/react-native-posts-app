@@ -1,4 +1,7 @@
+// LIBS
 import { Dispatch } from 'redux';
+
+// RESOURCES
 import { SET_LOADING_COMMENTS, SET_COMMENTS, CLEAR_COMMENTS, CommentsActionTypes } from './types';
 import { requestCommentsByPost } from '../services/comments';
 

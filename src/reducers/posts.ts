@@ -1,3 +1,4 @@
+// RESOURCES
 import {
   SET_LOADING_POSTS,
   SET_POSTS,
@@ -43,6 +44,7 @@ const posts = (state = initialState, action: PostsActionTypes): PostsState => {
     case SET_POSTS:
       return {
         ...state,
+        favorites: [],
         posts: action.payload.posts,
         postsError: action.payload.error,
       };

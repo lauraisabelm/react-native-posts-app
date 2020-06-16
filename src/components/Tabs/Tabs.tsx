@@ -1,4 +1,7 @@
+// REACT NATIVE
 import React, { Component } from 'react';
+
+// STYLES & UTILS
 import { ActiveTab, MainContainerTabs, NativeStyles, TabContainer, Title } from './styles';
 import { isIos } from '../../utils/responsive';
 
