@@ -10,19 +10,25 @@ export const ActiveTab = {
 };
 
 type TabContainerProps = {
+  position: number;
   tabWidth: number;
 } & ViewProps;
 
 type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around';
 
-export const TabContainer = styled.TouchableOpacity(({ tabWidth }: TabContainerProps) => ({
-  borderColor: isIos ? theme.green : theme.transparent,
-  borderRadius: responsiveSize(isIos ? 8 : 0),
-  borderWidth: isIos ? 1 : 0,
-  height: responsiveSize(isIos ? 38 : 45),
-  justifyContent: 'center' as JustifyContent,
-  width: `${isIos ? tabWidth - 5 : tabWidth}%`,
-}));
+export const TabContainer = styled.TouchableOpacity(
+  ({ position, tabWidth }: TabContainerProps) => ({
+    borderColor: isIos ? theme.green : theme.transparent,
+    borderBottomLeftRadius: position === 0 ? responsiveSize(8) : 0,
+    borderBottomRightRadius: position === 1 ? responsiveSize(8) : 0,
+    borderTopLeftRadius: position === 0 ? responsiveSize(8) : 0,
+    borderTopRightRadius: position === 1 ? responsiveSize(8) : 0,
+    borderWidth: isIos ? 1 : 0,
+    height: responsiveSize(isIos ? 38 : 45),
+    justifyContent: 'center' as JustifyContent,
+    width: `${isIos ? tabWidth - 5 : tabWidth}%`,
+  }),
+);
 
 export const MainContainerTabs = styled.View({
   alignItems: 'center',

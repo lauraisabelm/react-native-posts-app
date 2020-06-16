@@ -35,6 +35,7 @@ class Tabs extends Component<Props> {
             activeOpacity={1}
             key={index}
             onPress={() => this.onPressTab(index)}
+            position={index}
             tabWidth={item.width}
             style={this.isSelected(selectedIndex, index)}
           >
