@@ -8,6 +8,12 @@ import styled from 'styled-components/native';
 import { theme } from '../../utils/theme';
 import { isIos, responsiveSize } from '../../utils/responsive';
 
+export const ActivityContainer = styled.View({
+  alignItems: 'center',
+  marginVertical: responsiveSize(30),
+  width: '100%',
+});
+
 export const CommentsBar = styled.View({
   backgroundColor: isIos ? theme.titanWhite : theme.gray91,
   marginTop: responsiveSize(30),
@@ -45,6 +51,14 @@ export const NativeStyles = StyleSheet.create({
   flatlist: {
     paddingBottom: responsiveSize(50),
   },
+});
+
+export const NoDataMessage = styled.Text({
+  color: theme.suvaGrey,
+  fontSize: 16,
+  lineHeight: isIos ? '22px' : '30px',
+  marginTop: responsiveSize(25),
+  textAlign: 'center',
 });
 
 export const TitleField = styled.Text({

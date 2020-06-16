@@ -11,8 +11,7 @@ import { isIos } from '../utils/responsive';
 
 export type RootStackParamList = {
   Details: {
-    description: string;
-    postId: number;
+    position: number;
   };
   Posts: undefined;
 };
@@ -26,6 +25,7 @@ const RootStack = () => (
       headerBackTitleVisible: false,
       headerStyle: {
         backgroundColor: theme.green,
+        elevation: 0,
       },
       headerTintColor: theme.white,
       headerTitleStyle: {

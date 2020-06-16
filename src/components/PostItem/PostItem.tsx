@@ -51,7 +51,7 @@ const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, title }: Pro
   };
 
   const renderLeftContent = () => {
-    if (isRead) {
+    if (!isRead) {
       return <BlueDot />;
     }
     if (isIos && isFavorite) {
@@ -75,6 +75,7 @@ const PostItem = ({ isFavorite, isRead, onPressDelete, onPressItem, title }: Pro
       <Swipeable
         friction={2}
         leftThreshold={80}
+        onSwipeableRightOpen={onPressDelete}
         renderRightActions={renderRightActions}
         rightThreshold={40}
       >

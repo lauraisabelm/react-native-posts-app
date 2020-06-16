@@ -37,7 +37,7 @@ type LeftContainerProps = {
 export const LeftContainer = styled.View(({ isRead }: LeftContainerProps) => ({
   alignItems: 'center',
   justifyContent: 'center',
-  width: responsiveSize(!isRead && !isIos ? 15 : 30),
+  width: responsiveSize(isRead && !isIos ? 15 : 30),
 }));
 
 type MiddleContainerProps = {

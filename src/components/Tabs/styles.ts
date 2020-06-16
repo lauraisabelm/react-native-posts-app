@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TextProps, ViewProps } from 'react-native';
+import { StyleSheet, TextProps, ViewProps } from 'react-native';
 import { theme } from '../../utils/theme';
 import { isIos, responsiveSize } from '../../utils/responsive';
 
@@ -31,6 +31,12 @@ export const MainContainerTabs = styled.View({
   height: responsiveSize(45),
   justifyContent: 'center',
   width: '100%',
+});
+
+export const NativeStyles = StyleSheet.create({
+  shadow: {
+    elevation: 5,
+  },
 });
 
 type TitleProps = {

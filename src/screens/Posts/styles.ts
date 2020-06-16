@@ -11,12 +11,18 @@ export const Container = styled.View({
   width: '100%',
 });
 
+export const LoadingContainer = styled.View({
+  alignItems: 'center',
+  flex: 1,
+  justifyContent: 'center',
+});
+
 export const MainContainer = styled.SafeAreaView({
   backgroundColor: theme.red,
   flex: 1,
 });
 
-export const NoFavoritesText = styled.Text({
+export const NoDataText = styled.Text({
   color: theme.grey,
   fontSize: 16,
   lineHeight: '22px',

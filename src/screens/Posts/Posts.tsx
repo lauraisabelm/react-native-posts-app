@@ -1,9 +1,10 @@
 // REACT NATIVE
 import React, { Component } from 'react';
-import { StatusBar } from 'react-native';
+import { Alert, ActivityIndicator, StatusBar } from 'react-native';
 
 // LIBS
 import { FlatList } from 'react-native-gesture-handler';
+import { connect, ConnectedProps } from 'react-redux';
 
 // NAVIGATION
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -14,108 +15,155 @@ import { Button, HeaderButton, PostItem, Tabs } from '../../components';
 
 // RESOURCES
 import { CustomPost } from '../../types';
+import {
+  getPosts,
+  setSelectedPost,
+  deleteAll,
+  deletePostByPosition,
+  clearComments,
+} from '../../actions';
+import { RootState } from '../../store/configureStore';
 
 // STYLED & UTILS
-import { Container, MainContainer, NoFavoritesText } from './styles';
+import { Container, LoadingContainer, MainContainer, NoDataText } from './styles';
 import { theme } from '../../utils/theme';
 
-type PostsNavigationProp = StackNavigationProp<RootStackParamList, 'Posts'>;
+const mapStateToProps = ({ comments, posts }: RootState) => ({
+  comments: comments.comments,
+  favorites: posts.favorites,
+  loadingPosts: posts.loadingPosts,
+  posts: posts.posts,
+  postsError: posts.postsError,
+});
 
-type Props = {
-  navigation: PostsNavigationProp;
+const mapDispatchToProps = {
+  getPostsConnected: () => getPosts(),
+  setSelectedPostConnected: (post: CustomPost) => setSelectedPost(post),
+  deleteAllConnected: () => deleteAll(),
+  deletePostByPositionConnected: (position: number, id: number) =>
+    deletePostByPosition(position, id),
+  clearCommentsConnected: () => clearComments(),
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PostsNavigationProps = StackNavigationProp<RootStackParamList, 'Posts'>;
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {
+  navigation: PostsNavigationProps;
 };
 
 type State = {
+  loading: boolean;
   tabIndex: number;
 };
 
-let favorites: CustomPost[] = [
-  {
-    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
-    favorite: true,
-    id: 1,
-    title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
-    read: false,
-    userId: 1,
-  },
-];
-
-let posts: CustomPost[] = [
-  {
-    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
-    favorite: false,
-    id: 1,
-    title: 'Post title 1: Cylindrical-coordinate representations to tt (also known as HSL)',
-    read: false,
-    userId: 1,
-  },
-  {
-    body: 'Cylindrical-coordinate representations to tt (also known as HSL)',
-    favorite: false,
-    id: 2,
-    title: 'Post title 2: Cylindrical-coordinate representations to tt (also known as HSL)',
-    read: false,
-    userId: 1,
-  },
-];
-
 class Posts extends Component<Props, State> {
   state = {
-    selectedItem: 0,
+    loading: false,
     tabIndex: 0,
   };
 
   componentDidMount() {
     const { navigation } = this.props;
     navigation.setOptions({
-      headerRight: () => <HeaderButton iconNameOn="md-refresh" onButtonPress={() => {}} />,
+      headerRight: () => <HeaderButton iconNameOn="md-refresh" onButtonPress={this.getPosts} />,
     });
+    this.getPosts();
   }
 
-  goBack = () => {
-    const { navigation } = this.props;
-    navigation.goBack();
-  };
-
-  deleteAll = () => {
-    posts = [];
-    favorites = [];
-  };
-
-  deletePost = (position: number, id: number) => {
-    posts.splice(position, 1);
-    const indexToDelete = favorites.findIndex((item) => item.id === id);
-    if (indexToDelete) {
-      favorites.splice(indexToDelete, 1);
+  getPosts = async () => {
+    try {
+      const { getPostsConnected } = this.props;
+      await getPostsConnected();
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  addToFavorites = () => {
-    console.log('Added to favorites');
+  deleteAll = () => {
+    const { deleteAllConnected } = this.props;
+    Alert.alert('Confirmation', 'Are you sure you want to delete all the posts?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+      },
+      {
+        text: 'OK',
+        onPress: () => deleteAllConnected(),
+      },
+    ]);
   };
 
-  goToDetails = (body: string, id: number) => {
-    const { navigation } = this.props;
-    navigation.navigate('Details', { description: body, postId: id });
+  deletePost = (position: number, id: number) => {
+    const { deletePostByPositionConnected, favorites, posts } = this.props;
+    const { tabIndex } = this.state;
+    console.log('position: ', position, ', id: ', id);
+    Alert.alert('Confirmation', 'Are you sure you want to delete this posts?', [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          if (tabIndex === 0) {
+            const positionInFavorites = favorites.findIndex((item) => item.id === id);
+            deletePostByPositionConnected(position, positionInFavorites);
+          } else {
+            const indexToDelete = posts.findIndex((item) => item.id === id);
+            deletePostByPositionConnected(indexToDelete, position);
+          }
+        },
+      },
+    ]);
+  };
+
+  goToDetails = async (post: CustomPost, index: number) => {
+    try {
+      const { clearCommentsConnected, comments, navigation, setSelectedPostConnected } = this.props;
+      if (comments.length > 0) {
+        clearCommentsConnected();
+      }
+      await setSelectedPostConnected(post);
+      navigation.navigate('Details', { position: index });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   renderTabContent = () => {
     const { tabIndex } = this.state;
+    const { favorites, loadingPosts, posts, postsError } = this.props;
+
+    if (loadingPosts) {
+      return (
+        <LoadingContainer>
+          <ActivityIndicator color={theme.green} size="large" />
+        </LoadingContainer>
+      );
+    }
+
+    if (postsError) {
+      return (
+        <NoDataText>There was a problem requesting the data, please try again later.</NoDataText>
+      );
+    }
+
     if (favorites.length === 0 && tabIndex === 1) {
-      return <NoFavoritesText>You have no favorite posts so far.</NoFavoritesText>;
+      return <NoDataText>You have no favorite posts so far.</NoDataText>;
     }
 
     return (
       <FlatList
         data={tabIndex === 0 ? posts : favorites}
-        extraData={tabIndex === 0 ? posts : favorites}
         keyExtractor={(item: CustomPost) => item.id.toString()}
         renderItem={({ item, index }) => (
           <PostItem
             isFavorite={item.favorite}
             isRead={item.read}
             onPressDelete={() => this.deletePost(index, item.id)}
-            onPressItem={() => this.goToDetails(item.body, item.id)}
+            onPressItem={() => this.goToDetails(item, index)}
             title={item.title}
           />
         )}
@@ -150,4 +198,4 @@ class Posts extends Component<Props, State> {
   }
 }
 
-export default Posts;
+export default connector(Posts);
